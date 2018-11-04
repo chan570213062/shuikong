@@ -10,6 +10,45 @@ from print_script_pro import Print_fro_pro,Excel_for_print_pro
 from work_script_normal import Work_for_normal,Excel_for_work_normal
 from work_script_pro import Work_for_pro,Excel_for_work_pro
 import time
+from set_valid_date import set
+import config
+
+class Login_window(tk.Tk):
+    def __init__(self):
+        super(Login_window,self).__init__()
+        sw = self.winfo_screenwidth()
+        sh = self.winfo_screenheight()
+        w = int((sw - 300) / 2)
+        h = int((sh - 250) / 2)
+        self.title('税控批量控件登录')
+        self.geometry('300x250+{}+{}'.format(w, h))
+        self.resizable(width=False, height=False)
+        self.username = tk.StringVar()
+        self.password = tk.StringVar()
+        style = ttk.Style()
+        style.configure('label.TLabel', font=('微软雅黑', 12))
+        style.configure('button.TButton', font=('微软雅黑', 12), width=4)
+        ttk.Label(self,text='用  户:',style='label.TLabel').place(x=60,y=40)
+        ttk.Label(self, text='密  码:', style='label.TLabel').place(x=60, y=90)
+        ttk.Entry(self, font=('宋体', 12), width=13,textvariable = self.username).place(x=120, y=42)
+        ttk.Entry(self, font=('宋体', 12), width=13,textvariable = self.password,show='*').place(x=120, y=92)
+        ttk.Button(self,text='确定',style='button.TButton',command = self.ConfirmLogin).place(x=65,y=150)
+        ttk.Button(self,text='退出',style='button.TButton',command = self.destroy).place(x=185,y=150)
+
+    def ConfirmLogin(self):
+        username = self.username.get()
+        password = self.password.get()
+        if str(username) == str(config.username) and str(password) == str(config.password):
+            self.destroy()
+            isvalid = set()
+            if isvalid==True:
+                window = create_window()
+                window.createWidget()
+                window.mainloop()
+            else:
+                messagebox.showwarning('提示','已超过有效使用期限')
+        else:
+            messagebox.showwarning('提示','用户密码错误')
 
 class create_window(tk.Tk):
     def __init__(self):
@@ -49,8 +88,8 @@ class create_window(tk.Tk):
         ttk.Entry(self,font=('微软雅黑',11),width=7,textvariable=self.anum).place(x=138,y=115)
         self.button_change = ttk.Button(self,text='打印',style='button.TButton',command = self.Work_and_print)
         self.button_change.place(x=30,y=165)
-        ttk.Button(self,text='退出',style='button.TButton',command=window.quit).place(x=150,y=165)
-        self.src = ScrolledText(self,width=44,height=16,font=('微软雅黑', 11))
+        ttk.Button(self,text='退出',style='button.TButton',command=self.destroy).place(x=150,y=165)
+        self.src = ScrolledText(self,width=50,height=16,font=('微软雅黑', 10))
         self.src.place(x=230,y=15)
 
     def filedialog_work(self):
@@ -65,16 +104,16 @@ class create_window(tk.Tk):
             self.src.insert('end','目标文件目录:{}\n'.format(self.filename))
             self.switch_for_work = True
             self.switch_for_print = False
-            # if not self.filename == '':
-            #     self.driver = webdriver.Ie()
-            #     self.driver.get('http://192.168.99.181:8080/SKServer/index.jsp?relogin=true')
-            #     self.driver.maximize_window()
-            # else:
-            #     messagebox.showwarning('提示','请选择正确有效文档')
-            #     return window
+            if not self.filename == '':
+                self.driver = webdriver.Ie()
+                self.driver.get('http://192.168.99.181:8080/SKServer/index.jsp?relogin=true')
+                self.driver.maximize_window()
+            else:
+                messagebox.showwarning('提示','请选择正确有效文档')
+                return self
         else:
             messagebox.showwarning('提示','请先选择 \'专票\' 或者 \'普票\'')
-            return window
+            return self
 
     def filedialog_print(self):
         if self.pro.get() or self.normal.get() == 1:
@@ -88,16 +127,16 @@ class create_window(tk.Tk):
             self.src.insert('end','目标文件目录:{}\n'.format(self.filename))
             self.switch_for_print = True
             self.switch_for_work = False
-            # if not self.filename == '':
-            #     self.driver = webdriver.Ie()
-            #     self.driver.get('http://192.168.99.181:8080/SKServer/index.jsp?relogin=true')
-            #     self.driver.maximize_window()
-            # else:
-            #     messagebox.showinfo('提示','请选择正确有效文档')
-            #     return window
+            if not self.filename == '':
+                self.driver = webdriver.Ie()
+                self.driver.get('http://192.168.99.181:8080/SKServer/index.jsp?relogin=true')
+                self.driver.maximize_window()
+            else:
+                messagebox.showinfo('提示','请选择正确有效文档')
+                return self
         else:
             messagebox.showwarning('提示', '请先选择 \'专票\' 或者 \'普票\'')
-            return window
+            return self
 
     def Change_Checkbutton1(self):
         if self.pro.get()==1:#专票选中状态
@@ -188,21 +227,24 @@ class create_window(tk.Tk):
                             self.filename = ''
                             break
                 else:
-                    # self.start_row.set(valid_rows)
                     if self.total_rows > table.nrows:
                         messagebox.showinfo('提示', '已超出文档限制,检查是否已全部打印完毕')
                         self.start_row.set('0')
                         self.anum.set('0')
                         self.filename = ''
-                        return window
-
+                        return self
         except Exception as e:
             print(e)
             messagebox.showwarning('提示','请选择文档')
-            return window
-
+            return self
 
 if __name__=='__main__':
-    window = create_window()
-    window.createWidget()
-    window.mainloop()
+    loginwindow = Login_window()
+    loginwindow.mainloop()
+    # isvalid = set()
+    # if isvalid==True:
+    #     window = create_window()
+    #     window.createWidget()
+    #     window.mainloop()
+    # else:
+    #     messagebox.showwarning('提示','已超过有效使用期限')
