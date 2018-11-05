@@ -1,14 +1,14 @@
-#IEÇı¶¯´æ·ÅÎ»ÖÃ
-C:\Windows\System3
+#IEé©±åŠ¨å­˜æ”¾ä½ç½®
+C:\Windows\System32
 
-#lodopCustomPage£º
---×¨Æ±--
+#lodopCustomPageï¼š
+--ä¸“ç¥¨--
 W:24cm
 H:13.97cm
 L:0.17cm
 T:0.27cm
 
---ÆÕÆ±--
+--æ™®ç¥¨--
 W:24cm
 H:13.97cm
 L:0.30cm
