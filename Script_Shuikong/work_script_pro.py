@@ -12,7 +12,7 @@ class Work_for_pro():
 
     def work(self,content,driver):
         driver.find_element_by_xpath('//a[@href="/SKServer/zzp_spbm/init.do?target=navTab&rel=zzp_zsfpkj_nav"]').click()#专票
-        #href="/SKServer/zzspp_spbm/init.do?target=navTab&rel=zzspp_zsfpkj_nav"普票
+        time.sleep(0.5)
         driver.find_element_by_xpath('//button[@id="xz"]').click()#专票新增按钮
         input_window = driver.find_element_by_xpath('//input[@id="spmc_1"]')#选择货物或应税劳务名称
         self.action_chains.double_click(input_window).perform()

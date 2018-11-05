@@ -12,6 +12,7 @@ class Work_for_normal:
 
     def work(self,content,driver):
         driver.find_element_by_xpath('//a[@href="/SKServer/zzspp_spbm/init.do?target=navTab&rel=zzspp_zsfpkj_nav"]').click()#普票
+        time.sleep(0.5)
         driver.find_element_by_xpath('//button[@id="xz"]').click()#新增按钮
         input_window = driver.find_element_by_xpath('//input[@id="spmc_1"]')#选择货物或应税劳务名称
         self.action_chains.double_click(input_window).perform()
