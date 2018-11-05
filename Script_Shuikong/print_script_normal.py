@@ -16,6 +16,7 @@ class Print_for_normal():
         except Exception as e:
             input_check = driver.find_element_by_xpath('//*[@id="sidebar"]//a[@href="/SKServer/zzspp/fpcx.do?target=navTab&rel=zzspp_fpcx_nav"]')#普票查询,会变化
             self.action_chains.double_click(input_check).perform()
+            time.sleep(1)
             fpnum_input = driver.find_element_by_xpath('//td/input[@name="fphm"]')
             fpnum_input.send_keys(content)
             driver.find_element_by_id('cx').click()

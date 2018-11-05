@@ -14,7 +14,9 @@ class Print_fro_pro():
         try:
             driver.find_element_by_xpath('//td/input[@name="fphm"]').clear()
         except Exception as e:
-            driver.find_element_by_xpath('//a[@href="/SKServer/zzp/fpcx.do?target=navTab&rel=zzp_fpcx_nav"]').click()#专票查询
+            input_check = driver.find_element_by_xpath('//a[@href="/SKServer/zzp/fpcx.do?target=navTab&rel=zzp_fpcx_nav"]').click()#专票查询
+            self.action_chains.double_click(input_check).perform()
+            time.sleep(1)
             fpnum_input = driver.find_element_by_xpath('//td/input[@name="fphm"]')
             fpnum_input.send_keys(content)
             driver.find_element_by_id('cx').click()

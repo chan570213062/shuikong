@@ -61,15 +61,20 @@ class create_window(tk.Tk):
         self.normal = tk.IntVar()
         menubar = tk.Menu(self)
         self.filemenu = tk.Menu(menubar,tearoff=0)
+        self.logmenu = tk.Menu(menubar,tearoff=0)
         menubar.add_cascade(label='文档',menu = self.filemenu)
-        self.filemenu.add_command(label='发票开具',comman = self.filedialog_work,font = ('微软雅黑',10))
-        self.filemenu.add_command(label='发票打印',comman = self.filedialog_print,font = ('微软雅黑',10))
+        menubar.add_cascade(label='关于',menu = self.logmenu)
+        self.filemenu.add_command(label='发票开具',comman = self.filedialog_work,font = ('微软雅黑',9))
+        self.filemenu.add_command(label='发票打印',comman = self.filedialog_print,font = ('微软雅黑',9))
+        self.logmenu.add_command(label='关于版本',command = self.ShowLog,font = ('微软雅黑',9))
+        self.logmenu.add_command(label='关于设置',command = self.Show_print_setting,font = ('微软雅黑',9))
         self.config(menu = menubar)
         self.title('税控批量控件')
         self.geometry('650x350+{}+{}'.format(w,h))
         self.resizable(width=False,height=False)
         self.switch_for_work = False
         self.switch_for_print = False
+        self.switch_for_driver = False
 
     def createWidget(self):
         self.start_row = tk.IntVar()
@@ -104,12 +109,13 @@ class create_window(tk.Tk):
             self.src.insert('end','目标文件目录:{}\n'.format(self.filename))
             self.switch_for_work = True
             self.switch_for_print = False
-            if not self.filename == '':
+            if not self.filename == '' and self.switch_for_driver == False:
                 self.driver = webdriver.Ie()
                 self.driver.get('http://192.168.99.181:8080/SKServer/index.jsp?relogin=true')
                 self.driver.maximize_window()
+                self.switch_for_driver = True
             else:
-                messagebox.showwarning('提示','请选择正确有效文档')
+                # messagebox.showwarning('提示','请选择正确有效文档')
                 return self
         else:
             messagebox.showwarning('提示','请先选择 \'专票\' 或者 \'普票\'')
@@ -127,12 +133,13 @@ class create_window(tk.Tk):
             self.src.insert('end','目标文件目录:{}\n'.format(self.filename))
             self.switch_for_print = True
             self.switch_for_work = False
-            if not self.filename == '':
+            if not self.filename == '' and self.switch_for_driver == False:
                 self.driver = webdriver.Ie()
                 self.driver.get('http://192.168.99.181:8080/SKServer/index.jsp?relogin=true')
                 self.driver.maximize_window()
+                self.switch_for_driver = True
             else:
-                messagebox.showinfo('提示','请选择正确有效文档')
+                # messagebox.showinfo('提示','请选择正确有效文档')
                 return self
         else:
             messagebox.showwarning('提示', '请先选择 \'专票\' 或者 \'普票\'')
@@ -160,16 +167,16 @@ class create_window(tk.Tk):
             valid_rows = start_row + anum
             if self.switch_for_print == True and self.pro.get() == 1 and start_row >= 2:
                 confirm_message = Excel_for_print_pro(self.filename).read(start_row-1)
-                self.confirm = messagebox.askokcancel('提示','正在开始打印的发票号码是\'{}\',点击\'确定\'开始打印'.format(confirm_message))
+                self.confirm = messagebox.askokcancel('提示','准备开始打印的发票号码是\'{}\',点击\'确定\'开始打印'.format(confirm_message))
             elif self.switch_for_print == True and self.normal.get() == 1 and start_row >=2:
                 confirm_message = Excel_for_print_pro(self.filename).read(start_row - 1)
-                self.confirm = messagebox.askokcancel('提示', '正在开始打印的发票号码是\'{}\',点击\'确定\'开始打印'.format(confirm_message))
+                self.confirm = messagebox.askokcancel('提示', '准备开始打印的发票号码是\'{}\',点击\'确定\'开始打印'.format(confirm_message))
             if not self.total_rows > table.nrows:
                 for row in range(start_row, valid_rows):
                     if self.switch_for_work == True and self.pro.get()==1:
                         try:
                             content = Excel_for_work_pro(self.filename).read(row-1)
-                            # Work_for_pro(self.driver).work(content,self.driver)
+                            Work_for_pro(self.driver).work(content,self.driver)
                             print(content)
                             self.total_rows = self.total_rows + 1
                             self.start_row.set(valid_rows)
@@ -180,11 +187,11 @@ class create_window(tk.Tk):
                             self.start_row.set('0')
                             self.anum.set('0')
                             self.filename = ''
-                            break
+                            return self
                     elif self.switch_for_print == True and self.pro.get()==1 and self.confirm == True:
                         try:
                             content = Excel_for_print_pro(self.filename).read(row-1)
-                            # Print_fro_pro(self.driver).work(content,self.driver)
+                            Print_fro_pro(self.driver).work(content,self.driver)
                             print(content)
                             self.total_rows = self.total_rows + 1
                             self.start_row.set(valid_rows)
@@ -195,11 +202,11 @@ class create_window(tk.Tk):
                             self.start_row.set('0')
                             self.anum.set('0')
                             self.filename = ''
-                            break
+                            return self
                     elif self.switch_for_work ==True and self.normal.get()==1:
                         try:
                             content = Excel_for_work_normal(self.filename).read(row-1)
-                            # Work_for_normal(self.driver).work(content,self.driver)
+                            Work_for_normal(self.driver).work(content,self.driver)
                             print(content)
                             self.total_rows = self.total_rows + 1
                             self.start_row.set(valid_rows)
@@ -210,11 +217,11 @@ class create_window(tk.Tk):
                             self.start_row.set('0')
                             self.anum.set('0')
                             self.filename = ''
-                            break
+                            return self
                     elif self.switch_for_print == True and self.normal.get() == 1 and self.confirm == True:
                         try:
                             content = Excel_for_print_normal(self.filename).read(row-1)
-                            # Print_for_normal(self.driver).work(content,self.driver)
+                            Print_for_normal(self.driver).work(content,self.driver)
                             print(content)
                             self.total_rows = self.total_rows + 1
                             self.start_row.set(valid_rows)
@@ -225,7 +232,7 @@ class create_window(tk.Tk):
                             self.start_row.set('0')
                             self.anum.set('0')
                             self.filename = ''
-                            break
+                            return self
                 else:
                     if self.total_rows > table.nrows:
                         messagebox.showinfo('提示', '已超出文档限制,检查是否已全部打印完毕')
@@ -237,6 +244,12 @@ class create_window(tk.Tk):
             print(e)
             messagebox.showwarning('提示','请选择文档')
             return self
+
+    def ShowLog(self):
+        messagebox.askokcancel('版本信息','{}'.format(config.Log_message))
+
+    def Show_print_setting(self):
+        messagebox.askokcancel('设置','#IE驱动存放位置\nC:\Windows\System3\n#lodopCustomPage:\n--专票--\nW:24cm\nH:13.97cm\nL:0.17cm\nT:0.27cm\n--普票--\nW:24cm\nH:13.97cm\nL:0.30cm\nT:0.15cm')
 
 if __name__=='__main__':
     loginwindow = Login_window()
