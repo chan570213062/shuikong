@@ -16,7 +16,7 @@ class Work_for_normal:
         driver.find_element_by_xpath('//button[@id="xz"]').click()#新增按钮
         input_window = driver.find_element_by_xpath('//input[@id="spmc_1"]')#选择货物或应税劳务名称
         self.action_chains.double_click(input_window).perform()
-        time.sleep(1)
+        time.sleep(0.5)
         commodity_name  = content[0]
         input_window2 = driver.find_element_by_xpath('//tbody/tr[@target="slt_objId"]//td/div[contains(text(),"{}")]'.format(commodity_name))#根据模板选择第一页对应商品名称(暂时)
         self.action_chains.double_click(input_window2).perform()

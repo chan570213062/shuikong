@@ -20,16 +20,16 @@ class Print_for_normal():
             fpnum_input = driver.find_element_by_xpath('//td/input[@name="fphm"]')
             fpnum_input.send_keys(content)
             driver.find_element_by_id('cx').click()
+            time.sleep(0.5)
             driver.find_element_by_xpath('//div[@class="gridTbody"]//div[contains(text(),{})]'.format(content)).click()
             driver.find_element_by_id('dy').click()
-            # time.sleep(10)
         else:
             fpnum_input = driver.find_element_by_xpath('//td/input[@name="fphm"]')
             fpnum_input.send_keys(content)
             driver.find_element_by_id('cx').click()
+            time.sleep(0.5)
             driver.find_element_by_xpath('//div[@class="gridTbody"]//div[contains(text(),{})]'.format(content)).click()
             driver.find_element_by_id('dy').click()
-            # time.sleep(10)
 
 class Excel_for_print_normal():
     def __init__(self,filename):
