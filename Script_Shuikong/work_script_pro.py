@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 from selenium import webdriver
 from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
 import time
 import xlrd
 import tkinter as tk
@@ -21,9 +22,13 @@ class Work_for_pro():
         input_window = driver.find_element_by_xpath('//form[@id="zzp_fpkj_spbm_form"]//table[@id="fyxmdiv"]//input[@id="spmc_1"]')#选择货物或应税劳务名称2018-11-14
         input_window.send_keys('1')#2018-11-14新增
         self.action_chains.double_click(input_window).perform()
-        time.sleep(1)
         commodity_name  = content[0]
-        input_window2 = driver.find_element_by_xpath('//tbody/tr[@target="slt_objId"]//td/div[contains(text(),"{}")]'.format(commodity_name))#根据模板选择第一页对应商品名称(暂时)
+        if commodity_name =='*不动产*房地产开发住宅—装修款':#判断是否需要下拉滚动条
+            driver.find_element_by_xpath('//tbody//tr[@target="slt_objId"]//td//div[1]').click()  # 根据模板选择第一页对应商品名称(暂时)
+            driver.switch_to.active_element.send_keys(Keys.DOWN)
+            input_window2 = driver.find_element_by_xpath('//tbody//tr[@target="slt_objId"]//td//div[contains(text(),"{}")]'.format(commodity_name))#根据模板选择第一页对应商品名称(暂时)
+        else:
+            input_window2 = driver.find_element_by_xpath('//tbody//tr[@target="slt_objId"]//td//div[contains(text(),"{}")]'.format(commodity_name))#根据模板选择第一页对应商品名称(暂时)
         self.action_chains.double_click(input_window2).perform()
         name_input = driver.find_element_by_id('ghdwmc')
         id_input = driver.find_element_by_id('ghdwdm')
