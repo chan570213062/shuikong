@@ -11,12 +11,17 @@ class Work_for_pro():
         self.action_chains = ActionChains(driver)
 
     def work(self,content,driver):
-        driver.find_element_by_xpath('//a[@href="/SKServer/zzp_spbm/init.do?target=navTab&rel=zzp_zsfpkj_nav"]').click()#专票
-        time.sleep(0.5)
-        driver.find_element_by_xpath('//button[@id="xz"]').click()#专票新增按钮
-        input_window = driver.find_element_by_xpath('//input[@id="spmc_1"]')#选择货物或应税劳务名称
+        driver.implicitly_wait(5)
+        # driver.find_element_by_xpath('//a[@href="/SKServer/zzp_spbm/init.do?target=navTab&rel=zzp_zsfpkj_nav"]').click()#专票
+        input_check = driver.find_element_by_xpath('//a[@href="/SKServer/zzp_spbm/init.do?target=navTab&rel=zzp_zsfpkj_nav"]')
+        self.action_chains.double_click(input_check).perform()
+        time.sleep(1)
+        driver.find_element_by_xpath('//form[@id="zzp_fpkj_spbm_form"]//div[@class="fp-content-center"]//button[@id="xz"]').click()#专票新增按钮2018-11-14
+        time.sleep(1)
+        input_window = driver.find_element_by_xpath('//form[@id="zzp_fpkj_spbm_form"]//table[@id="fyxmdiv"]//input[@id="spmc_1"]')#选择货物或应税劳务名称2018-11-14
+        input_window.send_keys('1')#2018-11-14新增
         self.action_chains.double_click(input_window).perform()
-        time.sleep(0.5)
+        time.sleep(1)
         commodity_name  = content[0]
         input_window2 = driver.find_element_by_xpath('//tbody/tr[@target="slt_objId"]//td/div[contains(text(),"{}")]'.format(commodity_name))#根据模板选择第一页对应商品名称(暂时)
         self.action_chains.double_click(input_window2).perform()
