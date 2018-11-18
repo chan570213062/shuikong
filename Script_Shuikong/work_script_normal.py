@@ -19,18 +19,25 @@ class Work_for_normal:
         time.sleep(1)
         driver.find_element_by_xpath('//form[@id="zzspp_fpkj_spbm_form"]//div[@class="fp-content-center"]//button[@id="xz"]').click()#新增按钮
         time.sleep(1)
-        input_window = driver.find_element_by_xpath('//form[@id="zzspp_fpkj_spbm_form"]//input[@id="spmc_1"]')#选择货物或应税劳务名称2018-11-14
-        input_window.send_keys('1')#2018-11-14新增
-        self.action_chains.double_click(input_window).perform()
-        time.sleep(1)
-        commodity_name  = content[0]
-        if commodity_name =='*不动产*房地产开发住宅—装修款':#判断是否需要下拉滚动条
-            driver.find_element_by_xpath('//tbody//tr[@target="slt_objId"]//td//div[1]').click()  # 根据模板选择第一页对应商品名称(暂时)
-            driver.switch_to.active_element.send_keys(Keys.DOWN)
-            input_window2 = driver.find_element_by_xpath('//tbody//tr[@target="slt_objId"]//td//div[contains(text(),"{}")]'.format(commodity_name))#根据模板选择第一页对应商品名称(暂时)
-        else:
-            input_window2 = driver.find_element_by_xpath('//tbody//tr[@target="slt_objId"]//td//div[contains(text(),"{}")]'.format(commodity_name))#根据模板选择第一页对应商品名称(暂时)
-        self.action_chains.double_click(input_window2).perform()
+        while True:
+            try:
+                input_window = driver.find_element_by_xpath('//form[@id="zzspp_fpkj_spbm_form"]//input[@id="spmc_1"]')#选择货物或应税劳务名称2018-11-14
+                time.sleep(0.5)
+                input_window.send_keys('1')#2018-11-14新增
+                time.sleep(0.5)
+                self.action_chains.double_click(input_window).perform()
+                time.sleep(1)
+                commodity_name  = content[0]
+                if commodity_name =='*不动产*房地产开发住宅—装修款':#判断是否需要下拉滚动条
+                    driver.find_element_by_xpath('//tbody//tr[@target="slt_objId"]//td//div[1]').click()  # 根据模板选择第一页对应商品名称(暂时)
+                    driver.switch_to.active_element.send_keys(Keys.DOWN)
+                    input_window2 = driver.find_element_by_xpath('//tbody//tr[@target="slt_objId"]//td//div[contains(text(),"{}")]'.format(commodity_name))#根据模板选择第一页对应商品名称(暂时)
+                else:
+                    input_window2 = driver.find_element_by_xpath('//tbody//tr[@target="slt_objId"]//td//div[contains(text(),"{}")]'.format(commodity_name))#根据模板选择第一页对应商品名称(暂时)
+                self.action_chains.double_click(input_window2).perform()
+                break
+            except Exception as e:
+                print(e)
         name_input = driver.find_element_by_id('ghdwmc')
         id_input = driver.find_element_by_id('ghdwdm')
         address_input = driver.find_element_by_id('ghdwdzdh')

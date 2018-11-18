@@ -181,6 +181,7 @@ class create_window(tk.Tk):
                             self.total_rows = self.total_rows + 1
                             self.start_row.set(valid_rows)
                             self.src.insert('end','[专票] 第{}行 已开具 {}\n'.format(row,time.strftime('%Y-%m-%d %H:%M:%S',time.localtime())))
+                            self.src.see('end')
                         except Exception as e:
                             print(e)
                             messagebox.showinfo('提示', '已超出文档限制,检查是否已全部开具完毕')
@@ -196,6 +197,7 @@ class create_window(tk.Tk):
                             self.total_rows = self.total_rows + 1
                             self.start_row.set(valid_rows)
                             self.src.insert('end','[专票] {} 打印完毕{}\n'.format(content,time.strftime('%Y-%m-%d %H:%M:%S',time.localtime())))
+                            self.src.see('end')
                         except Exception as e:
                             print(e)
                             messagebox.showinfo('提示', '已超出文档限制,检查是否已全部打印完毕')
@@ -211,6 +213,7 @@ class create_window(tk.Tk):
                             self.total_rows = self.total_rows + 1
                             self.start_row.set(valid_rows)
                             self.src.insert('end','[普票] 第{}行 已开具 {}\n'.format(row,time.strftime('%Y-%m-%d %H:%M:%S',time.localtime())))
+                            self.src.see('end')
                         except Exception as e:
                             print(e)
                             messagebox.showinfo('提示', '已超出文档限制,检查是否已全部开具完毕')
@@ -226,6 +229,7 @@ class create_window(tk.Tk):
                             self.total_rows = self.total_rows + 1
                             self.start_row.set(valid_rows)
                             self.src.insert('end','[普票] {} 打印完毕{}\n'.format(content,time.strftime('%Y-%m-%d %H:%M:%S',time.localtime())))
+                            self.src.see('end')
                         except Exception as e:
                             print(e)
                             messagebox.showinfo('提示', '已超出文档限制,检查是否已全部打印完毕')
