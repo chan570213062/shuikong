@@ -6,7 +6,7 @@ import time
 import tkinter as tk
 from tkinter import filedialog
 
-class Print_fro_pro():
+class Print_for_pro():
     def __init__(self,driver):
         self.action_chains = ActionChains(driver)
 
