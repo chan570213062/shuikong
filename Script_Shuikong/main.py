@@ -6,7 +6,7 @@ from tkinter import messagebox
 from tkinter.scrolledtext import ScrolledText
 import xlrd
 from print_script_normal import Print_for_normal,Excel_for_print_normal
-from print_script_pro import Print_fro_pro,Excel_for_print_pro
+from print_script_pro import Print_for_pro,Excel_for_print_pro
 from work_script_normal import Work_for_normal,Excel_for_work_normal
 from work_script_pro import Work_for_pro,Excel_for_work_pro
 import time
@@ -193,7 +193,7 @@ class create_window(tk.Tk):
                     elif self.switch_for_print == True and self.pro.get()==1 and self.confirm == True:
                         try:
                             content = Excel_for_print_pro(self.filename).read(row-1)
-                            Print_fro_pro(self.driver).work(content,self.driver)
+                            Print_for_pro(self.driver).work(content,self.driver)
                             print(content)
                             self.total_rows = self.total_rows + 1
                             self.start_row.set(valid_rows)

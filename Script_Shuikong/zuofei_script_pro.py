@@ -19,19 +19,25 @@ class Zuofei_for_pro():
             time.sleep(1)
             fpnum_input = driver.find_element_by_xpath('//td/input[@name="fphm"]')
             fpnum_input.send_keys(int(content))
+            time.sleep(0.5)
             driver.find_element_by_id('cx').click()
             time.sleep(0.5)
             driver.find_element_by_xpath('//div[@class="gridTbody"]//div[contains(text(),{})]'.format(int(content))).click()
             driver.find_element_by_id('zf').click()
+            time.sleep(0.5)
             driver.find_element_by_xpath('//div[@id="alertMsgBox"]//a[1]').click()
+            time.sleep(4.5)
         else:
             fpnum_input = driver.find_element_by_xpath('//td/input[@name="fphm"]')
             fpnum_input.send_keys(int(content))
+            time.sleep(0.5)
             driver.find_element_by_id('cx').click()
             time.sleep(0.5)
             driver.find_element_by_xpath('//div[@class="gridTbody"]//div[contains(text(),{})]'.format(int(content))).click()
             driver.find_element_by_id('zf').click()
+            time.sleep(0.5)
             driver.find_element_by_xpath('//div[@id="alertMsgBox"]//a[1]').click()
+            time.sleep(4.5)
 
 class Excel_for_print_pro():
     def __init__(self,filename):

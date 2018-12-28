@@ -54,7 +54,7 @@ if __name__=='__main__':
     for row in range(1,table.nrows):
         try:
             content = Excel_for_print_pro(filename).read(row)
-            Print_fro_pro(driver).work(content,driver)
+            Print_for_pro(driver).work(content,driver)
         except Exception as e:
             print(e)
             break
