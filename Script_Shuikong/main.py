@@ -18,22 +18,23 @@ class Login_window(tk.Tk):
         super(Login_window,self).__init__()
         sw = self.winfo_screenwidth()
         sh = self.winfo_screenheight()
-        w = int((sw - 300) / 2)
+        w = int((sw - 360) / 2)
         h = int((sh - 250) / 2)
         self.title('税控批量控件登录')
-        self.geometry('300x250+{}+{}'.format(w, h))
+        self.geometry('360x250+{}+{}'.format(w, h))
         self.resizable(width=False, height=False)
         self.username = tk.StringVar()
         self.password = tk.StringVar()
         style = ttk.Style()
         style.configure('label.TLabel', font=('微软雅黑', 12))
         style.configure('button.TButton', font=('微软雅黑', 12), width=4)
-        ttk.Label(self,text='用  户:',style='label.TLabel').place(x=60,y=40)
-        ttk.Label(self, text='密  码:', style='label.TLabel').place(x=60, y=90)
-        ttk.Entry(self, font=('宋体', 12), width=13,textvariable = self.username).place(x=120, y=42)
-        ttk.Entry(self, font=('宋体', 12), width=13,textvariable = self.password,show='*').place(x=120, y=92)
-        ttk.Button(self,text='确定',style='button.TButton',command = self.ConfirmLogin).place(x=65,y=150)
-        ttk.Button(self,text='退出',style='button.TButton',command = self.destroy).place(x=185,y=150)
+        ttk.Label(self,text='用  户:',style='label.TLabel').place(x=100,y=40)
+        ttk.Label(self, text='密  码:', style='label.TLabel').place(x=100, y=90)
+        ttk.Entry(self, font=('宋体', 12), width=13,textvariable = self.username).place(x=160, y=42)
+        ttk.Entry(self, font=('宋体', 12), width=13,textvariable = self.password,show='*').place(x=160, y=92)
+        ttk.Button(self,text='确定',style='button.TButton',command = self.ConfirmLogin).place(x=105,y=150)
+        ttk.Button(self,text='退出',style='button.TButton',command = self.destroy).place(x=215,y=150)
+        ttk.Label(self,text="本程序由陈剑辉独自开发，仅用于学习交流，有问题请联系本人。",style='label.TLabel').place(x=5,y=220)
 
     def ConfirmLogin(self):
         username = self.username.get()
@@ -258,10 +259,5 @@ class create_window(tk.Tk):
 if __name__=='__main__':
     loginwindow = Login_window()
     loginwindow.mainloop()
-    # isvalid = set()
-    # if isvalid==True:
-    #     window = create_window()
-    #     window.createWidget()
-    #     window.mainloop()
-    # else:
-    #     messagebox.showwarning('提示','已超过有效使用期限')
+
+
